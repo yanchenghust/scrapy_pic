@@ -41,7 +41,7 @@ class BdSpider(scrapy.Spider):
                 'kwname': keyword,
                 'load_wait': 2,  # 页面加载秒数
                 'render_wait': 3,  # 每次到达页面底部触发加载，等待渲染的秒数
-                'page_num': 10,  # 页数
+                'page_num': 3,  # 页数
                 'timeout': 3600,  # splash 504
             }
             logging.info("keyword: {} begin".format(keyword.encode("utf-8")))
@@ -91,6 +91,7 @@ class BdSpider(scrapy.Spider):
         match_obj = re.match(r'^data', pic, re.M | re.I)
         if match_obj:
             file_data = base64.b64decode(pic)
+            pic = ""
         else:
             f = urllib2.urlopen(pic)
             file_data = f.read()
