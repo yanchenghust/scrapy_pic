@@ -4,8 +4,7 @@
     "describe",
     "clothe",
     "body",
-    "country",
-    "kind"
+    "country"
   ],
   "labels": {
     "main":[
@@ -56,10 +55,6 @@
       "德国",
       "俄罗斯",
       "瑞典"
-    ],
-    "kind":[
-      "",
-      "gif"
     ]
   }
 }
