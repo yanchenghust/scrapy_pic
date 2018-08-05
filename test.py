@@ -16,12 +16,14 @@ def combination(idx, item, lst, keywords, keys):
             break
 
 def get_keywords():
-    data = json.load(open("label/label.json", "r"))
+    data = json.load(open("/root/work/python/scrapy_pic/bpic/label/label.json", "r"))
     keys = data["keys"]
     keywords = data["labels"]
     lst = []
     combination(0, [], lst, keywords, keys)
     for item in lst:
-        item = map(lambda x: x.encode('utf-8'), item)
-        yield " ".join(item)
+        # item = map(lambda x: x.encode('utf-8'), item)
+        yield ",".join(item)
 
+for i in get_keywords():
+    print i.encode('utf-8')
