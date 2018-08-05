@@ -94,10 +94,7 @@ class BdSpider(scrapy.Spider):
         else:
             f = urllib2.urlopen(pic)
             file_data = f.read()
-        save_path = "/mnt/pics/{}.jpg".format(uri)
-        with open(save_path, "w") as f:
-            f.write(file_data)
-        logging.info("{} saved".format(save_path))
+
         cursor = self.db.cursor()
         tags = keyword.split(" ")
         tag = ",".join(tags)
@@ -106,7 +103,7 @@ class BdSpider(scrapy.Spider):
         source_url_md5.update(pic)
         # SQL 插入语句
         sql = """insert into pics(title, extra, uri, source_url, source_url_md5, create_time, update_time, status, tag)
-                 values('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}') on duplicate key update update_time='{}'
+                 values('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')
               """.format(
             "", "[]", uri, pic, source_url_md5.hexdigest(), int(now), int(now), 0, tag.encode('utf-8'), int(now)
         )
@@ -116,6 +113,10 @@ class BdSpider(scrapy.Spider):
             cursor.execute(sql)
             # 提交到数据库执行
             self.db.commit()
+            save_path = "/mnt/pics/{}.jpg".format(uri)
+            with open(save_path, "w") as f:
+                f.write(file_data)
+            logging.info("{} saved".format(save_path))
         except Exception, e:
             # Rollback in case there is any error
             logging.error("db error, e: {}, sql: {}".format(e.message, sql))
